@@ -1,4 +1,4 @@
-import { DemandCalculation } from "../../../src/domain/calculation/demand"
+import { DemandCalculation  } from "../../../src/domain/calculation/demand"
 
 describe('Demand calculation', () => {
     it('should throw an error when economy demand is negative', () => {
