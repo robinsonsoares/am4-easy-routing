@@ -1,6 +1,6 @@
 export class CapacityCalculation {
     calculate(demand: number, capacity: number): number {
-        if (capacity <= 0 || demand < 0) {
+        if (capacity <= 0 ) {
             throw('Capacity must be positive')
         }
 
