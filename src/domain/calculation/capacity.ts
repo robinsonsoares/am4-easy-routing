@@ -4,8 +4,7 @@ export class CapacityCalculation {
             throw ('Capacity must be positive')
         }
 
-        const result = (demand / capacity)
-        return result
+        return (demand / capacity)
 
     }
 }
