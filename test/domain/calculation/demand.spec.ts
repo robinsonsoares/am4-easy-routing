@@ -1,4 +1,4 @@
-import { DemandCalculation  } from "../../../src/domain/calculation/demand"
+import { DemandCalculation } from "../../../src/domain/calculation/demand"
 
 describe('Demand calculation', () => {
     it('should throw an error when economy demand is negative', () => {
@@ -37,6 +37,32 @@ describe('Demand calculation', () => {
 
         expect(() => {
             demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
+        }).toThrow('Demand cannot be negative')
+    })
+
+    it('should throw an error when no economid demand is provided', () => {
+        //Arrange
+        const economicDemand = null
+        const businessDemand = 1
+        const firstClassDemand = -1
+
+        const demandCalculation = new DemandCalculation()
+
+        expect(() => {
+            demandCalculation.calculate(economicDemand as any, businessDemand, firstClassDemand)
+        }).toThrow('Demand cannot be negative')
+    })
+
+    it('should throw an error when no economid demand is provided', () => {
+        //Arrange
+        const economicDemand = undefined
+        const businessDemand = 1
+        const firstClassDemand = -1
+
+        const demandCalculation = new DemandCalculation()
+
+        expect(() => {
+            demandCalculation.calculate(economicDemand as any, businessDemand, firstClassDemand)
         }).toThrow('Demand cannot be negative')
     })
 
