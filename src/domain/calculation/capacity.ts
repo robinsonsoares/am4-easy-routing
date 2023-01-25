@@ -1,11 +1,17 @@
-export class CapacityCalculation {
-    calculate(demand: number, capacity: number): number {
+import { CalculationInterface } from "../interfaces/calculation-interface"
+
+export type CapacityProps = {
+    capacity: number,
+    demand: number
+}
+
+export class CapacityCalculation implements CalculationInterface<CapacityProps> {
+    calculate(value: CapacityProps): number {
+        const { capacity, demand } = value
         if (capacity <= 0 || !capacity) {
-            throw ('Capacity must be positive')
+            throw new Error('Capacity must be positive')
         }
 
-        const result = (demand / capacity)
-        return result
-
+        return demand / capacity
     }
 }
