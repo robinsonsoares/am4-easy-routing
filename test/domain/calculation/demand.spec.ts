@@ -1,140 +1,74 @@
-import { DemandCalculation } from "../../../src/domain/calculation/demand"
+import { CapacityCalculation, CapacityProps } from "../../../src/domain/calculation/capacity"
 
-describe('Demand calculation', () => {
-    it('should throw an error when economy demand is negative', () => {
-        //Arrange
-        const economicDemand = -1
-        const businessDemand = 1
-        const firstClassDemand = 1
+describe('Capacity Calculation', () => {
+    it('should throw an error when capacity is <=0', () => {
+        const demand = 10
+        const capacity = -1
 
-        const demandCalculation = new DemandCalculation()
+        const capacityCalculation = new CapacityCalculation()
 
         expect(() => {
-            demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-        }).toThrow('Demand cannot be negative')
+            capacityCalculation.calculate({ capacity, demand })
+        }).toThrow('Capacity must be positive')
     })
 
-    it('should throw an error when business demand is negative', () => {
-        //Arrange
-        const economicDemand = 1
-        const businessDemand = -1
-        const firstClassDemand = 1
+    it('should throw an error when capacity is =0', () => {
+        const demand = 10
+        const capacity = 0
 
-        const demandCalculation = new DemandCalculation()
+        const capacityCalculation = new CapacityCalculation()
 
         expect(() => {
-            demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-        }).toThrow('Demand cannot be negative')
+            capacityCalculation.calculate({ capacity, demand })
+        }).toThrow('Capacity must be positive')
     })
 
-    it('should throw an error when first class demand is negative', () => {
-        //Arrange
-        const economicDemand = 1
-        const businessDemand = 1
-        const firstClassDemand = -1
+    it('should throw an error when capacity is not provided', () => {
+        const demand = 10
+        const capacity = null
 
-        const demandCalculation = new DemandCalculation()
+        const capacityCalculation = new CapacityCalculation()
 
         expect(() => {
-            demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-        }).toThrow('Demand cannot be negative')
+            capacityCalculation.calculate({ capacity: capacity as any, demand })
+        }).toThrow('Capacity must be positive')
     })
 
-    it('should throw an error when no economid demand is provided', () => {
-        //Arrange
-        const economicDemand = null
-        const businessDemand = 1
-        const firstClassDemand = -1
+    it('should throw an error when capacity is not provided', () => {
+        const demand = 10
+        const capacity = undefined
 
-        const demandCalculation = new DemandCalculation()
+        const capacityCalculation = new CapacityCalculation()
 
         expect(() => {
-            demandCalculation.calculate(economicDemand as any, businessDemand, firstClassDemand)
-        }).toThrow('Demand cannot be negative')
+            capacityCalculation.calculate({ capacity: capacity as any, demand })
+        }).toThrow('Capacity must be positive')
     })
 
-    it('should throw an error when no economid demand is provided', () => {
-        //Arrange
-        const economicDemand = undefined
-        const businessDemand = 1
-        const firstClassDemand = -1
 
-        const demandCalculation = new DemandCalculation()
+    it('should return the correct value on succes', () => {
+        const demand = 1556
+        const capacity = 600
 
-        expect(() => {
-            demandCalculation.calculate(economicDemand as any, businessDemand, firstClassDemand)
-        }).toThrow('Demand cannot be negative')
+        const capacityCalculation = new CapacityCalculation()
+
+        const result = capacityCalculation.calculate({ capacity: capacity as any, demand })
+
+        const expectedResult = (1556 / 600)
+
+        expect(result).toBe(expectedResult)
     })
 
-    it('should return a result when all demand data is provided', () => {
-        const economicDemand = 2
-        const businessDemand = 2
-        const firstClassDemand = 2
+    it('should return zero when there is no demand', () => {
+        const demand = 0
+        const capacity = 600
 
-        const demandCalculation = new DemandCalculation()
+        const capacityCalculation = new CapacityCalculation()
 
-        const demand = demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
+        const result = capacityCalculation.calculate({ capacity: capacity as any, demand })
 
-        expect(demand).toBe(12)
+        expect(result).toBe(0)
     })
 
-    it('should return a result when all demand data is provided', () => {
-        const economicDemand = 3
-        const businessDemand = 3
-        const firstClassDemand = 3
 
-        const demandCalculation = new DemandCalculation()
-
-        const demand = demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-
-        expect(demand).toBe(18)
-    })
-
-    it('should return 0 when there is no demand', () => {
-        const economicDemand = 0
-        const businessDemand = 0
-        const firstClassDemand = 0
-
-        const demandCalculation = new DemandCalculation()
-
-        const demand = demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-
-        expect(demand).toBe(0)
-    })
-
-    it('should return 1 when there only 1 economic demand', () => {
-        const economicDemand = 1
-        const businessDemand = 0
-        const firstClassDemand = 0
-
-        const demandCalculation = new DemandCalculation()
-
-        const demand = demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-
-        expect(demand).toBe(1)
-    })
-
-    it('should return 2 when there only 1 business demand', () => {
-        const economicDemand = 0
-        const businessDemand = 1
-        const firstClassDemand = 0
-
-        const demandCalculation = new DemandCalculation()
-
-        const demand = demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-
-        expect(demand).toBe(2)
-    })
-
-    it('should return 3 when there only 1 first class demand', () => {
-        const economicDemand = 0
-        const businessDemand = 0
-        const firstClassDemand = 1
-
-        const demandCalculation = new DemandCalculation()
-
-        const demand = demandCalculation.calculate(economicDemand, businessDemand, firstClassDemand)
-
-        expect(demand).toBe(3)
-    })
 })
