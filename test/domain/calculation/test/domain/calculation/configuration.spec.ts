@@ -1,4 +1,4 @@
-import { ConfigurationCalculation } from "../../../src/domain/calculation/configuration"
+import { ConfigurationCalculation } from "../../../../../../src/domain/calculation/configuration"
 
 describe('Configuration Calculation', () => {
     it('should return the demand when total capacity is 0', () => {
