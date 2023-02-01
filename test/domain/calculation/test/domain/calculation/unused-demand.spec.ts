@@ -1,5 +1,5 @@
-import { UnusedDemandCalculation } from "../../../src/domain/calculation/unused-demand"
-import { SeatCategory } from "../../../src/shared/seat-category"
+import { UnusedDemandCalculation } from "../../../../../../src/domain/calculation/unused-demand"
+import { SeatCategory } from "../../../../../../src/shared/seat-category"
 
 describe('Unused Demand Calculation', () => {
     it('it should calculate the unused seats on success', () => {
@@ -10,7 +10,7 @@ describe('Unused Demand Calculation', () => {
         const unusedDemandCalculation = new UnusedDemandCalculation()
         unusedDemandCalculation.setFreeSeats(initialFreeSeats)
 
-        const result = unusedDemandCalculation.calculate({seats, type})
+        const result = unusedDemandCalculation.calculate({ seats, type })
 
         expect(result).toBe(80)
     })
@@ -22,7 +22,7 @@ describe('Unused Demand Calculation', () => {
 
         const unusedDemandCalculation = new UnusedDemandCalculation()
         unusedDemandCalculation.setFreeSeats(initialFreeSeats)
-        const result = unusedDemandCalculation.calculate({seats, type})
+        const result = unusedDemandCalculation.calculate({ seats, type })
 
         expect(result).toBe(60)
     })
@@ -34,7 +34,7 @@ describe('Unused Demand Calculation', () => {
 
         const unusedDemandCalculation = new UnusedDemandCalculation()
         unusedDemandCalculation.setFreeSeats(initialFreeSeats)
-        const result = unusedDemandCalculation.calculate({seats, type})
+        const result = unusedDemandCalculation.calculate({ seats, type })
 
         expect(result).toBe(40)
     })
@@ -45,9 +45,9 @@ describe('Unused Demand Calculation', () => {
 
         const unusedDemandCalculation = new UnusedDemandCalculation()
         unusedDemandCalculation.setFreeSeats(initialFreeSeats)
-        unusedDemandCalculation.calculate({seats, type: SeatCategory.FIRST_CLASS})
+        unusedDemandCalculation.calculate({ seats, type: SeatCategory.FIRST_CLASS })
 
-        const result = unusedDemandCalculation.calculate({seats, type: SeatCategory.BUSINESS})
+        const result = unusedDemandCalculation.calculate({ seats, type: SeatCategory.BUSINESS })
 
         expect(result).toBe(1)
     })
