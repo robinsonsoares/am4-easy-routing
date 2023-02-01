@@ -7,8 +7,8 @@ export type CapacityProps = {
 
 export class CapacityCalculation implements CalculationInterface<CapacityProps> {
     calculate(value: CapacityProps): number {
-        const { capacity, demand } = value
-        if (capacity <= 0 || !capacity) {
+        const {capacity, demand} = value
+        if ( capacity <=0 || !capacity) {
             throw new Error('Capacity must be positive')
         }
 
