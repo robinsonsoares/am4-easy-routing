@@ -45,6 +45,13 @@ export class Airplane {
         return this.props.manufacturer
     }
 
+    getRunaway(): number {
+        if (!this.props.runway) {
+            return 0
+        }
+        return this.props.runway
+    }
+
     validate(): void {
         this.getAircraft()
         this.getManufacturer()
