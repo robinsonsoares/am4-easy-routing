@@ -4,18 +4,18 @@ import { DemandCalculation } from "../domain/calculation/demand"
 import { UnusedDemandCalculation } from "../domain/calculation/unused-demand"
 import { SeatCategory } from "../shared/seat-category"
 
-type Demand = {
+export type Demand = {
     economy: number,
     business: number,
     firstClass: number
 }
 
-type SuggestedConfig = {
+export type SuggestedConfig = {
     configHours: number,
     configuration: ConfigurationProps
 }
 
-type ConfigurationProps = {
+export type ConfigurationProps = {
     aircrafts: number,
     fligtsPerDay: number,
     config: Demand[]
@@ -27,7 +27,7 @@ export class ConfigurationUsecase {
         private readonly demandCalculation: DemandCalculation,
         private readonly configurationCalculation: ConfigurationCalculation,
         private readonly unusedDemandCalculation: UnusedDemandCalculation
-    ) {}
+    ) { }
 
     execute(seats: number, airportDemand: Demand): SuggestedConfig[] {
         const demandTotal = this.demandCalculation.calculate({
@@ -58,7 +58,7 @@ export class ConfigurationUsecase {
             fligts12hPerDay = 2 // se tiver voos, serão sempre 2 por dia
 
             // pegar o maior número par
-            capacity12h = capacityTotal % 2 === 0 ? capacityTotal : capacityTotal -1
+            capacity12h = capacityTotal % 2 === 0 ? capacityTotal : capacityTotal - 1
 
             config12h = this.buildConfiguration(seats, capacity12h, airportDemand, fligts12hPerDay)
 
@@ -70,8 +70,8 @@ export class ConfigurationUsecase {
             fligts8hPerDay = 3 // se tiver voos de 8h, serão sempre 3 por dia
 
             // pegar o maior múltiplo de 3
-            capacity8h = capacityTotal % 3 === 0 ? capacityTotal : 
-                ( capacityTotal -1 ) % 3 === 0 ? capacityTotal -1 : capacityTotal -2
+            capacity8h = capacityTotal % 3 === 0 ? capacityTotal :
+                (capacityTotal - 1) % 3 === 0 ? capacityTotal - 1 : capacityTotal - 2
 
             config8h = this.buildConfiguration(seats, capacity8h, airportDemand, fligts8hPerDay)
 
@@ -83,11 +83,11 @@ export class ConfigurationUsecase {
             fligtsPerDay: fligts12hPerDay,
             config: config12h
         },
-        {
-            aircrafts: aircrafts8hPerDay,
-            fligtsPerDay: fligts8hPerDay,
-            config: config8h
-        })
+            {
+                aircrafts: aircrafts8hPerDay,
+                fligtsPerDay: fligts8hPerDay,
+                config: config8h
+            })
     }
 
     private buildConfiguration(seats: number, capacityTotal: number, airportDemand: Demand, fligts8hPerDay: number): Demand[] {
@@ -97,13 +97,13 @@ export class ConfigurationUsecase {
         this.configurationCalculation.setCapacityTotal(capacityTotal) // eu seto este valor apenas uma vez
 
         const firstClassConfiguration = this.configurationCalculation.calculate(airportDemand.firstClass)
-        unusedDemand =this.unusedDemandCalculation.calculate({seats: firstClassConfiguration, type: SeatCategory.FIRST_CLASS})
+        unusedDemand = this.unusedDemandCalculation.calculate({ seats: firstClassConfiguration, type: SeatCategory.FIRST_CLASS })
 
         const businessConfiguration = this.configurationCalculation.calculate(airportDemand.business)
-        unusedDemand = this.unusedDemandCalculation.calculate({seats: businessConfiguration, type: SeatCategory.BUSINESS})
+        unusedDemand = this.unusedDemandCalculation.calculate({ seats: businessConfiguration, type: SeatCategory.BUSINESS })
 
         const config = []
-        for(let index = 0; index < (capacityTotal / fligts8hPerDay); index++) {
+        for (let index = 0; index < (capacityTotal / fligts8hPerDay); index++) {
             config.push({ economy: unusedDemand, business: businessConfiguration, firstClass: firstClassConfiguration },)
         }
 
