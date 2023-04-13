@@ -1,4 +1,5 @@
 import { AirplaneProps } from "../../domain/airplane/airplane";
+import { NotFoundError } from "../../services/not-found-error";
 import { AirplaneRepository } from "./repository-interface";
 
 export class FileAirplaneRepository implements AirplaneRepository {
@@ -17,7 +18,7 @@ export class FileAirplaneRepository implements AirplaneRepository {
         })
 
         if (found.length === 0) {
-            throw new Error('Manufacturer not found')
+            throw new NotFoundError('Manufacturer not found')
         }
 
         return found
@@ -33,7 +34,7 @@ export class FileAirplaneRepository implements AirplaneRepository {
         })
 
         if (found.length === 0) {
-            throw new Error("Aircraft not found")
+            throw new NotFoundError("Aircraft not found")
         }
 
         return found[0]
