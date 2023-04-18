@@ -18,11 +18,6 @@ type configurationProps = {
     gameMode: GameMode
 }
 
-type ConfigurationResponse = {
-    price: Price,
-    suggestedConfig: SuggestedConfig[]
-}
-
 export const create = async (req: Request, res: Response) => {
     const configurationProps: configurationProps = req.body
 
