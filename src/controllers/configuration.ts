@@ -18,11 +18,6 @@ type configurationProps = {
     gameMode: GameMode
 }
 
-type ConfigurationResponse = {
-    price: Price,
-    suggestedConfig: SuggestedConfig[]
-}
-
 export const create = async (req: Request, res: Response) => {
     const configurationProps: configurationProps = req.body
 
@@ -32,14 +27,23 @@ export const create = async (req: Request, res: Response) => {
     }
 
     //chamar nossa api para pegar dados da aeronave
-    const airplane = await getAirplaneByName(configurationProps.airplaneName)
+    let airplane: Airplane
+
+    try {
+        airplane = await getAirplaneByName(configurationProps.airplaneName)
+    } catch (e) {
+        return res.status(404).json({ message: e })
+    }
 
     const runwayLength = getRunawayLength(airplane, configurationProps.gameMode)
 
     const { status, route } = await getAirportDemand(configurationProps.departureICAO, airplane.getRange(), runwayLength)
 
     if (status.request !== "success") {
-        return res.status(400).json({ message: 'Invalid request data!' })
+        if (status.description === "Unknown departure airport") {
+            return res.status(400).json({ message: status.description })
+        }
+        return res.status(500).json({ message: 'Sorry, server error!' })
     }
 
     const airportConfigurations = route.data.map((routeData): ResponseConfig => {
